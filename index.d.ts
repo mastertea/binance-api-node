@@ -460,7 +460,7 @@ declare module 'binance-api-node' {
       endTime?: number
       limit?: number
     }): Promise<AggregatedTrade[]>
-    allBookTickers(): Promise<{ [key: string]: Ticker }>
+    allBookTickers(): Promise<{ [key: string]: MicroBook }>
     book(options: { symbol: string; limit?: number }): Promise<OrderBook>
     exchangeInfo(): Promise<ExchangeInfo>
     lendingAccount(options?: { useServerTime: boolean }): Promise<LendingAccount>
@@ -814,6 +814,7 @@ declare module 'binance-api-node' {
       callback: (ticker: Ticker) => void,
     ) => ReconnectingWebSocketHandler
     allTickers: (callback: (tickers: Ticker[]) => void) => ReconnectingWebSocketHandler
+    bookTicker: (symbols:string[], callback: (ticker: MicroTicker) => void) => ReconnectingWebSocketHandler
     futuresAllTickers: (callback: (tickers: Ticker[]) => void) => ReconnectingWebSocketHandler
     candles: (
       pair: string | string[],
@@ -1474,6 +1475,23 @@ declare module 'binance-api-node' {
     low: string
     volume: string
     volumeQuote: string
+  }
+
+  export interface MicroBook {
+    symbol: string
+    bidPrice: string
+    bidQty: string
+    askPrice: string
+    askQty: string
+  }
+
+  export interface MicroTicker {
+    updateId?: number
+    symbol: string
+    bestBid: string
+    bestBidQnt: string
+    bestAsk: string
+    bestAskQnt: string
   }
 
   export interface Candle {
